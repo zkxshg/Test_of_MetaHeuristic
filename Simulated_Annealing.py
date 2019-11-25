@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+import MetaHeuristic.HC as HC
 
 class SA:
     def __init__(self, num_runs, num_iters, num_pattern, file_path, min_temp, max_temp):
@@ -106,8 +106,18 @@ class SA:
         return 0.9 * temperature
 
 
+# 執行SA並返回平均迭代解
 sa = SA(30, 1024, 100, "", 0.00001, 1.0)
 avg_obj_value_iter = sa.run()
 x = [i for i in range(0,len(avg_obj_value_iter))]
-plt.plot(x, avg_obj_value_iter, color='blue') 
+
+# 獲取 HC 法迭代解作對照
+hc = HC.HC(30, 1024, 100, "")
+y2 = hc.run()
+
+# 繪製折線圖對比兩種方法
+fig = plt.figure()
+ax1 = fig.add_subplot(1,1,1)
+ax1.plot(x, avg_obj_value_iter, color='blue')
+ax1.plot(x, y2, color='red')
 plt.show()
