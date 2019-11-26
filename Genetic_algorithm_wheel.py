@@ -26,8 +26,6 @@ class GA:
         self.best_sol = []  # 最優解
         # 定義輪盤法所需參數
         self.WheelProb = []
-        # 定義競爭法所需參數
-        self.Tour_candi = []
 
     def run(self):
         # 初始化迭代記錄
@@ -76,7 +74,6 @@ class GA:
         self.children = []  # 每次 generation 的子代解
         self.best_obj_value = 0  # 最優值
         self.WheelProb = []  # 定義輪盤法所需參數
-        self.Tour_candi = []  # 定義競爭法所需參數
         # 隨機生成解集或讀入外部解集
         if len(self.x_filename_ini) > 0:
             print("外部讀入解集功能尚未實現!")
