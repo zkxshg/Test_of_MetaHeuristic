@@ -13,11 +13,12 @@ class ACO:
         self.x_num_iters = num_iters  # 迭代數
         self.alpha = alpha  # 費洛蒙衰減率
         self.beta = beta  # 距離權重
-        # 定義ACO所需變量
+        # 定義ACO所需參數
         self.q0 = 0.9  # 隨機/輪盤選擇概率
         self.rou = 0.1  # 局部費洛蒙衰減率
         self.f0 = 0  # f0 = （n*lnn）^-1
-        self.Q = 0.8  # Ant_Q 的學習率
+        self.Q = 0.8  # Ant_Q 的學習率     
+        # 定義ACO所需變量
         self.city_location = []  # TSP城市位置
         self.city_num = 0  # TSP城市數量
         self.tour_table = []  # 存放每隻螞蟻的路徑(m*n); m：螞蟻數，n: TSP點數
@@ -104,7 +105,7 @@ class ACO:
             for j in range(0, self.city_num):
                 self.phero_table[i][j] = self.f0
         '''
-        # 4) 基於 L_nn 更新費洛蒙表
+        # 可選：4) 基於 L_nn 更新費洛蒙表
         for i in range(0, self.city_num - 1):
             sp = lnn_tour[i]
             ep = lnn_tour[i + 1]
@@ -129,9 +130,11 @@ class ACO:
                 # 2) 每隻螞蟻各走一步 # print("==========ant=========")
                 for j in range(0, self.x_num_ants):
                     step = -1
-                    (tour_prob, maxStep) = self.cal_prob(i, j)  # 3) 計算 p_j(r,s)
+                    # 3) 計算 p_j(r,s)
+                    (tour_prob, maxStep) = self.cal_prob(i, j)  
                     q = np.random.rand()  # 判斷是否 maxStep
-                    # 4) exploitation
+                    # 4) 基於最大值或輪盤法選擇下一步 
+                    # exploitation
                     if q < self.q0:
                         step = maxStep
                     # biased maxStep
@@ -181,7 +184,6 @@ class ACO:
         ep = Best_tour[0]  # 起點
         self.phero_table[sp][ep] = self.phero_table[sp][ep] + self.alpha * (1 / L_best)
         self.phero_table[ep][sp] = self.phero_table[sp][ep]
-        # print(self.phero_table[3])
 
     def array_delete(self, param, start):
         # 刪除數列param中值為start的位置
